@@ -34,7 +34,6 @@ export function registerDirectives(Component, router) {
                 location.href = path;
             }
             
-    
             return;
         }
     
@@ -79,7 +78,7 @@ export function registerDirectives(Component, router) {
             return;
         }
     
-        throw "user [$ui-value]"
+        throw "use [$ui-value]"
     };
     
     Component.directives["$ui-value"] = (element, accessor, tag, attriubtes, content) => {
@@ -103,6 +102,15 @@ export function registerDirectives(Component, router) {
                 accessor.set(element.valueAsDate);
     
                 attriubtes["ui-change"] && attriubtes["ui-change"](element.valueAsDate);
+            };
+        } else if (attriubtes.type == "file") {
+            element.type = "file";
+            element.files = accessor.get();
+    
+            element.onchange = () => {
+                accessor.set(element.files);
+    
+                attriubtes["ui-change"] && attriubtes["ui-change"](element.files);
             };
         } else if (tag == "select") {
             content = content.flat();
