@@ -1,6 +1,6 @@
 export function registerDirectives(Component, router) {
-    Component.directives["ui-click"] = (element, value, tag, attributes) => element.onclick = event => {
-        const text = attributes["ui-click-text"];
+    Component.directives['ui-click'] = (element, value, tag, attributes) => element.onclick = event => {
+        const text = attributes['ui-click-text'];
         
         if (text) {
             const originalContent = element.textContent;
@@ -18,17 +18,17 @@ export function registerDirectives(Component, router) {
         event.stopPropagation();
     };
 
-    Component.directives["ui-focus"] = (element, value) => element.onfocus = event => {
+    Component.directives['ui-focus'] = (element, value) => element.onfocus = event => {
         value(event);
     
         event.stopPropagation();
     };
     
-    Component.directives["ui-href"] = (element, value, tag, attributes) => element.onclick = event => {
+    Component.directives['ui-href'] = (element, value, tag, attributes) => element.onclick = event => {
         const path = router.absolute(value, element.hostingComponent);
     
         if (!router.getRoute(path)) {
-            if (attributes["ui-href-target"] == "blank") {
+            if (attributes['ui-href-target'] == 'blank') {
                 open(path);
             } else {
                 location.href = path;
@@ -37,7 +37,7 @@ export function registerDirectives(Component, router) {
             return;
         }
     
-        if (attributes["ui-href-target"] == "blank") {
+        if (attributes['ui-href-target'] == 'blank') {
             open(`#${path}`);
         } else {
             router.navigate(path);
@@ -46,73 +46,73 @@ export function registerDirectives(Component, router) {
         event.stopPropagation();
     };
     
-    Component.directives["ui-href-active"] = (element, value, tag, attributes) => {
+    Component.directives['ui-href-active'] = (element, value, tag, attributes) => {
         function resolveActive() {
-            if (router.activePath.startsWith(router.absolute(value === true ? attributes["ui-href"] : value, element.hostingComponent))) {
-                element.setAttribute("ui-active", "");
+            if (router.activePath.startsWith(router.absolute(value === true ? attributes['ui-href'] : value, element.hostingComponent))) {
+                element.setAttribute('ui-active', '');
             } else {
-                element.removeAttribute("ui-active");
+                element.removeAttribute('ui-active');
             }
         }
     
-        addEventListener("hashchange", () => {
+        addEventListener('hashchange', () => {
             resolveActive();
         });
     
         resolveActive();
     };
     
-    Component.directives["id"] = (element, value, tag) => {
-        if (value[0] == ".") {
+    Component.directives['id'] = (element, value, tag) => {
+        if (value[0] == '.') {
             element.hostingComponent[value.substring(1)] = element;
         } else {
             element.id = value;
         }
     };
     
-    Component.directives["ui-value"] = (element, value, tag) => {
-        if (tag == "option") {
+    Component.directives['ui-value'] = (element, value, tag) => {
+        if (tag == 'option') {
             (element as any).dataValue = value;
             element.value = Math.random().toString(16).substr(2);
     
             return;
         }
     
-        throw "use [$ui-value]"
+        throw 'use [$ui-value]'
     };
     
-    Component.directives["$ui-value"] = (element, accessor, tag, attriubtes, content) => {
-        if (tag == "option") {
-            throw "use [ui-value]";
+    Component.directives['$ui-value'] = (element, accessor, tag, attriubtes, content) => {
+        if (tag == 'option') {
+            throw 'use [ui-value]';
         }
     
-        if (attriubtes.type == "checkbox") {
+        if (attriubtes.type == 'checkbox') {
             element.checked = accessor.get();
     
             element.onchange = () => {
                 accessor.set(element.checked);
     
-                attriubtes["ui-change"] && attriubtes["ui-change"](element.checked);
+                attriubtes['ui-change'] && attriubtes['ui-change'](element.checked);
             };
-        } else if (attriubtes.type == "date") {
-            element.type = "date";
+        } else if (attriubtes.type == 'date') {
+            element.type = 'date';
             element.valueAsDate = accessor.get();
     
             element.onchange = () => {
                 accessor.set(element.valueAsDate);
     
-                attriubtes["ui-change"] && attriubtes["ui-change"](element.valueAsDate);
+                attriubtes['ui-change'] && attriubtes['ui-change'](element.valueAsDate);
             };
-        } else if (attriubtes.type == "file") {
-            element.type = "file";
+        } else if (attriubtes.type == 'file') {
+            element.type = 'file';
             element.files = accessor.get();
     
             element.onchange = () => {
                 accessor.set(element.files);
     
-                attriubtes["ui-change"] && attriubtes["ui-change"](element.files);
+                attriubtes['ui-change'] && attriubtes['ui-change'](element.files);
             };
-        } else if (tag == "select") {
+        } else if (tag == 'select') {
             content = content.flat();
     
             const initialValue = accessor.get();
@@ -123,7 +123,7 @@ export function registerDirectives(Component, router) {
     
                 accessor.set(option.dataValue);
     
-                attriubtes["ui-change"] && attriubtes["ui-change"](option.dataValue);
+                attriubtes['ui-change'] && attriubtes['ui-change'](option.dataValue);
             };
         } else {
             element.value = accessor.get();
@@ -131,7 +131,7 @@ export function registerDirectives(Component, router) {
             element.onblur = () => {
                 accessor.set(element.value);
                 
-                attriubtes["ui-change"] && attriubtes["ui-change"](element.value);
+                attriubtes['ui-change'] && attriubtes['ui-change'](element.value);
             };
         }
     };    
