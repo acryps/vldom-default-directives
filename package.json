@@ -4,5 +4,8 @@
     "main": "dist/index.js",
     "scripts": {
         "version": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^4.6.4"
     }
 }
