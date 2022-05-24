@@ -3,6 +3,6 @@
     "version": "1.2.2",
     "main": "dist/index.js",
     "scripts": {
-        "publish": "tsc"
+        "version": "tsc"
     }
 }
