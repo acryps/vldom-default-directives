@@ -1,6 +1,6 @@
 {
     "name": "vldom-default-directives",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "main": "index.js",
     "scripts": {
         "version": "tsc"
