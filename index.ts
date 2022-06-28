@@ -103,6 +103,15 @@ export function registerDirectives(Component, router) {
     
                 attriubtes['ui-change'] && attriubtes['ui-change'](element.valueAsDate);
             };
+        } else if (attriubtes.type == 'datetime-local') {
+            element.type = 'datetime-local';
+            element.valueAsDate = accessor.get();
+    
+            element.onchange = () => {
+                accessor.set(element.valueAsDate);
+    
+                attriubtes['ui-change'] && attriubtes['ui-change'](element.valueAsDate);
+            };
         } else if (attriubtes.type == 'file') {
             element.type = 'file';
             element.files = accessor.get();
