@@ -105,12 +105,13 @@ export function registerDirectives(Component, router) {
             };
         } else if (attriubtes.type == 'datetime-local') {
             element.type = 'datetime-local';
-            element.valueAsDate = accessor.get();
+            element.value = accessor.get()?.toISOString();
     
             element.onchange = () => {
-                accessor.set(element.valueAsDate);
+                const value = new Date(element.value);
+                accessor.set(value);
     
-                attriubtes['ui-change'] && attriubtes['ui-change'](element.valueAsDate);
+                attriubtes['ui-change'] && attriubtes['ui-change'](value);
             };
         } else if (attriubtes.type == 'file') {
             element.type = 'file';
