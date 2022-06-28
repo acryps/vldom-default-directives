@@ -105,7 +105,7 @@ export function registerDirectives(Component, router) {
             };
         } else if (attriubtes.type == 'datetime-local') {
             element.type = 'datetime-local';
-            element.value = accessor.get()?.toISOString();
+            element.value = accessor.get()?.toISOString().replace('Z', '');
     
             element.onchange = () => {
                 const value = new Date(element.value);
