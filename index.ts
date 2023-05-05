@@ -7,7 +7,11 @@ export function registerDirectives(Component, router) {
 			element.textContent = text;
 	
 			requestAnimationFrame(async () => {
-				await value(event);
+				try {
+					await value(event);
+				} catch (error) {
+					element.hostingComponent.onerror(error);
+				}
 	
 				element.textContent = originalContent;
 			});
