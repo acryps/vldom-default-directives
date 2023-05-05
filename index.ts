@@ -1,5 +1,5 @@
 export function registerDirectives(Component, router) {
-	Component.directives['ui-click'] = (element, value, tag, attributes) => element.onclick = event => {
+	Component.directives['ui-click'] = (element, value, tag, attributes) => element.onclick = async event => {
 		const text = attributes['ui-click-text'];
 		
 		if (text) {
@@ -12,7 +12,11 @@ export function registerDirectives(Component, router) {
 				element.textContent = originalContent;
 			});
 		} else {
-			value(event);
+			try {
+				await value(event);
+			} catch (error) {
+				element.hostingComponent.onerror(error);
+			}
 		}
 	
 		event.stopPropagation();
