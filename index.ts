@@ -32,26 +32,34 @@ export function registerDirectives(Component, router) {
 		event.stopPropagation();
 	};
 	
-	Component.directives['ui-href'] = (element, value, tag, attributes) => element.onclick = event => {
+	Component.directives['ui-href'] = (element, value, tag, attributes) => {
 		const path = router.absolute(value, element.hostingComponent);
-	
-		if (!router.getRoute(path)) {
-			if (attributes['ui-href-target'] == 'blank') {
-				open(path);
-			} else {
-				location.href = path;
+
+		if (tag == 'a') {
+			if (router.getRoute(path)) {
+				element.setAttribute('href', `#${path}`);
 			}
-			
-			return;
 		}
-	
-		if (attributes['ui-href-target'] == 'blank') {
-			open(`#${path}`);
-		} else {
-			router.navigate(path);
+
+		element.onclick = event => {
+			if (!router.getRoute(path)) {
+				if (attributes['ui-href-target'] == 'blank') {
+					open(path);
+				} else {
+					location.href = path;
+				}
+				
+				return;
+			}
+		
+			if (attributes['ui-href-target'] == 'blank') {
+				open(`#${path}`);
+			} else {
+				router.navigate(path);
+			}
+		
+			event.stopPropagation();
 		}
-	
-		event.stopPropagation();
 	};
 	
 	Component.directives['ui-href-active'] = (element, value, tag, attributes) => {
