@@ -150,7 +150,17 @@ export function registerDirectives(Component, router) {
 			element.value = content.find(element => element.dataValue == initialValue || ((typeof element.dataValue == 'object' && element.dataValue) && (typeof initialValue == 'object' && initialValue) && ('id' in element.dataValue) && ('id' in initialValue) && element.dataValue?.id == initialValue?.id))?.value;
 
 			element.onchange = () => {
-				const option = content.find(option => option.value == element.value);
+				const findOption = options => {
+					for (let option of options) {
+						if (option.value == element.value) {
+							return option;
+						} else if (option.children?.length) {
+							return findOption(option.children);
+						}
+					}
+				}
+				
+				const option = findOption(content);
 	
 				accessor.set(option.dataValue);
 	
